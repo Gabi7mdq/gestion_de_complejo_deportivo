@@ -3,6 +3,7 @@
 #include <string.h>
 
 typedef struct {
-    char alumno;
-    
-}
+    char nombre[30];
+    int telefono[10];
+    char cancha[30];
+}cliente;
