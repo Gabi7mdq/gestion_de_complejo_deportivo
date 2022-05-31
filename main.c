@@ -4,5 +4,6 @@
 
 typedef struct {
     char alumno;
+    int numero;
     
 }
