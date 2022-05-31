@@ -18,4 +18,3 @@ typedef struct {
     int dni;
     int telefono;
 } cliente;
-
