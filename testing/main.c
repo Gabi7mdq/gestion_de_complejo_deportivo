@@ -24,49 +24,53 @@ typedef struct {
 } cliente;
 
 // prints the menu and highlights the option selected passed by parameter
-void print_menu(int option) {
-    switch (option) {
-        case 1:
-        printf("  opcion 1\n");
-        break;
-        default:
-        printf("opcion 1\n");
-    }
-    switch (option) {
-        case 2:
-        printf("  opcion 2\n");
-        break;
-        default:
-        printf("opcion 2\n");
-    }
-    switch (option) {
-        case 3:
-        printf("  opcion 3\n");
-        break;
-        default:
-        printf("opcion 3\n");
-    }    
-    switch (option) {
-        case 4:
-        printf("  opcion 4\n");
-        break;
-        default:
-        printf("opcion 4\n");
-    }
-    switch (option) {
-        case 5:
-        printf("  opcion 5\n");
-        break;
-        default:
-        printf("opcion 5\n");
-    }
+void print_menu(int option, int menu_number) {
+    switch (menu_number) {
+        case 1: // menu principal
         switch (option) {
-        case 6:
-        printf("  Salir\n");
-        break;
-        default:
-        printf("Salir\n");
+            case 1:
+            printf("  opcion 1\n");
+            break;
+            default:
+            printf("opcion 1\n");
+        }
+        switch (option) {
+            case 2:
+            printf("  opcion 2\n");
+            break;
+            default:
+            printf("opcion 2\n");
+        }
+        switch (option) {
+            case 3:
+            printf("  opcion 3\n");
+            break;
+            default:
+            printf("opcion 3\n");
+        }    
+        switch (option) {
+            case 4:
+            printf("  opcion 4\n");
+            break;
+            default:
+            printf("opcion 4\n");
+        }
+        switch (option) {
+            case 5:
+            printf("  opcion 5\n");
+            break;
+            default:
+            printf("opcion 5\n");
+        }
+            switch (option) {
+            case 6:
+            printf("  Salir\n");
+            break;
+            default:
+            printf("Salir\n");
+        }
     }
+    
 
 }
 
@@ -74,13 +78,12 @@ void clrscr() {
     system("@cls||clear");
 }
 
-int main() {
+void menu(int menu_number) {
     bool run = true;
     int i = 1;
     while (run) {
-        print_menu(i);
+        print_menu(i, menu_number);
         int c = getch();
-        printf("%d || %d\n", i, c);
         clrscr();
         switch (c) {
         case 72:
@@ -93,30 +96,30 @@ int main() {
             run = false;
             break;
         case 13:
-        switch (i) {
-            case 1:
-            printf("opcion 1 ejecutada\n");
-            break;
-            case 2:
-            printf("opcion 2 ejecutada\n");
-            break;
-            case 3:
-            printf("opcion 3 ejecutada\n");
-            break;
-            case 4:
-            printf("opcion 4 ejecutada\n");
-            break;
-            case 5:
-            printf("opcion 5 ejecutada\n");
-            break;
-            case 6:
-            run = false;
-            break;
-        }
-        break;
-        default:
-            printf("Introduzca un numero valido\n");
-            break;
+            switch (i) {
+                case 1:
+                printf("opcion 1 ejecutada\n");
+                break;
+                case 2:
+                printf("opcion 2 ejecutada\n");
+                break;
+                case 3:
+                printf("opcion 3 ejecutada\n");
+                break;
+                case 4:
+                printf("opcion 4 ejecutada\n");
+                break;
+                case 5:
+                printf("opcion 5 ejecutada\n");
+                break;
+                case 6:
+                run = false;
+                break;
+            }
         }
     }
+}
+
+int main() {
+    menu(1);
 }

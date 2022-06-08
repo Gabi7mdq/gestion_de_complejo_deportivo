@@ -1,7 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include <stdbool.h>
+#include <conio.h>
+
+// borra todo lo que está en el stdout
+void clrscr() {
+    system("@cls||clear");
+}
 
 // TODO: mover funciones a librerias
 
@@ -93,10 +100,90 @@ cancha cargar_cancha() {
 // cargar canchas en un archivo
 
 // carga clientes solo cuando no estan en el archivo
+cliente crear_cliente() {
+    cliente c;
+    printf("Ingrese el dni del cliente: ");
+    scanf("%d", &c.dni);
+    // agregar función que revise si el cliente ya esta en el archivo
+    printf("Ingrese el apellido del cliente: ");
+    fflush(stdin);
+    scanf("%s", &c.apellido);
+    fflush(stdin);
+    printf("Ingrese el telefono del cliente: ");
+    scanf("%d", &c.telefono);
+    return c;
+}
 
+void print_cliente(cliente c) {
+    printf("Apellido: %s\n", c.apellido);
+    printf("DNI: %d\n", c.dni);
+    printf("Telefono: %d\n", c.telefono);
+}
+
+// carga un cliente pasado por parametro al archivo
+void cargar_cliente() {
+    int i;
+    bool run = true;
+    cliente c;
+    while (run) {
+        clrscr();
+        c = crear_cliente();
+        clrscr();
+        printf("--- Cliente creado ---\n\n");
+        print_cliente(c);
+        printf("\nPresione enter para confirmar\n");
+        if (getch() == 13) {
+            run = false;
+        }
+    }
+    FILE *archivo;
+    archivo = fopen("clientes.dat", "ab");
+    fwrite(&c, sizeof(cliente), 1, archivo);
+    fclose(archivo);
+    printf("Cliente agregado con exito\n");
+    sleep(1);
+    clrscr();
+}
+
+// muestra los clientes en formato de tabla
+void mostrar_clientes() {
+    FILE *archivo;
+    archivo = fopen("clientes.dat", "rb");
+    fseek(archivo, 0L, SEEK_END);
+    int size = ftell(archivo);
+    fseek(archivo, 0, SEEK_SET);
+    cliente c[size];
+    fread(&c, sizeof(cliente), size, archivo);
+    for (int i = 0; i < size / sizeof(cliente); i++) {
+        print_cliente(c[i]);
+        printf("------------------------------\n");
+    }
+    fclose(archivo);
+}
 // carga turnos solo cuando el horario no esta ocupado
+void cargar_turnos() {
+    FILE *archivo;
+    archivo = fopen("turnos.dat", "ab");
+    fflush(stdin);
+    turno t;
+    for (int i = 0; i < 5; i++) {
+        printf("Ingrese el id del turno: ");
+        scanf("%d", &t.id_turno);
+        printf("Ingrese el dia del turno: ");
+        scanf("%d", &t.dia);
+        printf("Ingrese el mes del turno: ");
+        scanf("%d", &t.mes);
+        printf("Ingrese el id de la cancha: ");
+        scanf("%d", &t.cancha_id);
+        printf("Ingrese el id del cliente: ");
+        scanf("%d", &t.cliente_id);
+        fwrite(&t, sizeof(turno), 1, archivo);
+    }
+    fclose(archivo);
+}
 
-// valida que el turno no este ocupado
+
+// valida que el turno no este ocupado buscando en el archivo turnos.dat
 
 // da de baja el turno
 
@@ -106,8 +193,258 @@ cancha cargar_cancha() {
 
 // hacer el menu
 
+// traba el sistema hasta que se aprete enter
+void volver() {
+    bool run = true;
+    printf("--> Volver");
+    while (run) {
+        if (getch() == 13) {
+            run = false;
+            clrscr();
+        }
+    }
+}
+
+void print_menu(int option, int menu_number) {
+    if (menu_number == 0) {  // menu principal
+            switch (option) {
+                case 1: 
+                printf("--> Menu clientes\n");
+                break;
+                default:
+                printf("Menu clientes\n");
+            }
+            switch (option) {
+                case 2:
+                printf("--> Menu turnos\n");
+                break;
+                default:
+                printf("Menu turnos\n");
+            }
+            switch (option) {
+                case 3:
+                printf("--> ---------\n");
+                break;
+                default:
+                printf("---------\n");
+            }
+            switch (option) {
+                case 4:
+                printf("--> ---------\n");
+                break;
+                default:
+                printf("---------\n");
+            }
+            switch (option) {
+                case 5:
+                printf("--> ---------\n");
+                break;
+                default:
+                printf("---------\n");
+            }
+            switch (option) {
+                case 6:
+                printf("--> Salir\n");
+                break;
+                default:
+                printf("Salir\n");
+            }
+    }
+    if (menu_number == 1) {  // menu clientes
+        switch (option) {
+            case 1:
+            printf("--> Agregar cliente\n");
+            break;
+            default:
+            printf("Agregar cliente\n");
+        }
+        switch (option) {
+            case 2:
+            printf("--> Mostrar clientes\n");
+            break;
+            default:
+            printf("Mostrar clientes\n");
+        }
+        switch (option) {
+            case 3:
+            printf("--> ---------\n");
+            break;
+            default:
+            printf("---------\n");
+        }    
+        switch (option) {
+            case 4:
+            printf("--> ---------\n");
+            break;
+            default:
+            printf("---------\n");
+        }
+        switch (option) {
+            case 5:
+            printf("--> ---------\n");
+            break;
+            default:
+            printf("---------\n");
+        }
+            switch (option) {
+            case 6:
+            printf("--> Volver\n");
+            break;
+            default:
+            printf("Volver\n");
+            break;
+        }
+    }
+    if (menu_number == 2) {  // menu clientes
+        switch (option) {
+            case 1:
+            printf("--> Agregar turno\n");
+            break;
+            default:
+            printf("Agregar turno\n");
+        }
+        switch (option) {
+            case 2:
+            printf("--> Mostrar turnos\n");
+            break;
+            default:
+            printf("Mostrar turnos\n");
+        }
+        switch (option) {
+            case 3:
+            printf("--> ---------\n");
+            break;
+            default:
+            printf("---------\n");
+        }    
+        switch (option) {
+            case 4:
+            printf("--> ---------\n");
+            break;
+            default:
+            printf("---------\n");
+        }
+        switch (option) {
+            case 5:
+            printf("--> ---------\n");
+            break;
+            default:
+            printf("---------\n");
+        }
+            switch (option) {
+            case 6:
+            printf("--> Volver\n");
+            break;
+            default:
+            printf("Volver\n");
+            break;
+        }
+    }
+}
+
+// organiza las funciones de los menús
+void ejecutador(int menu_number, int function_number) {
+    if (menu_number == 1) {  // funciones del menu 1, clientes
+        switch (function_number) {
+            case 1:
+                cargar_cliente();
+                break;
+            case 2:
+                mostrar_clientes();
+                volver();
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+void menu(int menu_number) {
+    bool run = true;
+    int i = 1;
+    while (run) {
+        print_menu(i, menu_number);
+        int c = getch();
+        clrscr();
+        switch (c) {
+        case 72:
+            if (i > 1) {i--;}
+            break;
+        case 80:
+            if (i < 6) {i++;}
+            break;
+        case 48:
+            run = false;
+            break;
+        case 13:
+            switch (i) {
+                case 1:
+                ejecutador(menu_number, 1);
+                break;
+                case 2:
+                ejecutador(menu_number, 2);
+                break;
+                case 3:
+                // funcion 3
+                break;
+                case 4:
+                // funcion 4
+                break;
+                case 5:
+                run = false;
+                break;
+                case 6:
+                run = false;
+                break;
+            }
+        }
+    }
+}
+
+void main_menu() {
+    bool run = true;
+    int i = 1;
+    while (run) {
+        print_menu(i, 0);
+        int c = getch();
+        clrscr();
+        switch (c) {
+        case 72:
+            if (i > 1) {i--;}
+            break;
+        case 80:
+            if (i < 6) {i++;}
+            break;
+        case 48:
+            run = false;
+            break;
+        case 13:
+            switch (i) {
+                case 1:
+                menu(1); // abre el menu clientes
+                break;
+                case 2:
+                menu(2); // abre el menu turnos
+                break;
+                case 3:
+                // funcion 3
+                break;
+                case 4:
+                // funcion 4
+                break;
+                case 5:
+                // funcion 5
+                break;
+                case 6:
+                run = false;
+                break;
+            }
+        }
+    }
+}
 
 int main() {
-    // cargar_canchas();
-    mostrar_canchas();
+    int menu_number = 1;
+    main_menu();
+    return 0;
 }
